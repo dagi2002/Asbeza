@@ -1,5 +1,5 @@
-import 'package:asbeza/bloc/test_event.dart';
-import 'package:asbeza/bloc/test_state.dart';
+
+import 'package:asbeza/bloc/test_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,27 +21,27 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Assbeza'),
       ),
-      body: BlocBuilder<TestBloc, TestState>(
+      body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if (state is TestInitialState) {
+          if (state is HomeInitialState) {
             return Center(
               child: ElevatedButton(
 
                 onPressed: () {
-                  BlocProvider.of<TestBloc>(context).add(
-                      GetDataButtonPressed()
+                  BlocProvider.of<HomeBloc>(context).add(
+                      FetchEvent()
                   );
                 },
                 child: Text("Start"),
               ),
             );
           }
-          if (state is TestLoadingState){
+          if (state is HomeLoadingState){
             return const Center(
             child: CircularProgressIndicator(),
             );
           }
-          if (state is TestSuccessState){
+          if (state is HomeSuccessState){
             return
               ListView.builder(
     itemCount: state.asbeza?.length,

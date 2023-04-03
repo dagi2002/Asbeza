@@ -2,10 +2,14 @@ import 'dart:convert';
 
 import 'package:asbeza/models/Asbeza.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
 class ApiServiceProvider {
 
-  Future<Asbeza?> fetchAsbeza() async {
+  Future<List?> fetchAsbeza() async {
     final response = await http.get(
       Uri.parse('https://fakestoreapi.com/products'),
       headers: <String, String>{
@@ -13,9 +17,10 @@ class ApiServiceProvider {
         'Accept': 'application/json',
       },
     );
-    if (response.statusCode == 200) {
-      return Asbeza.fromJson(json.decode(response.body));
-    }
+    
+    return Asbeza.asbezaList(json.decode(response.body));
+
+    
   }
 
 

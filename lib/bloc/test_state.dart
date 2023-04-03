@@ -1,26 +1,24 @@
-import 'package:asbeza/models/Asbeza.dart';
-import 'package:equatable/equatable.dart';
+part of 'test_bloc.dart';
 
-abstract class TestState extends Equatable {}
+abstract class HomeState extends Equatable {}
 
-class TestInitialState extends TestState {
+class HomeInitialState extends HomeState {
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class TestLoadingState extends TestState {
+class HomeLoadingState extends HomeState {
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class TestSuccessState extends TestState {
-  List? asbeza;
+class HomeSuccessState extends HomeState {
+  List asbeza;
+  List history;
 
-  TestSuccessState({
-      required this.asbeza,}
-      );
+  HomeSuccessState({required this.asbeza, required this.history});
 
   @override
   // TODO: implement props
@@ -29,10 +27,10 @@ class TestSuccessState extends TestState {
 
 
 
-class TestFailState extends TestState {
+class HomeFailState extends HomeState {
   String message;
 
-  TestFailState(this.message);
+  HomeFailState(this.message);
 
   @override
   // TODO: implement props

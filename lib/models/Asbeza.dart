@@ -34,4 +34,29 @@ class Asbeza {
     data['image'] = image;
     return data;
   }
+  static List? asbezaList(List asbeza) {
+    List asbezas = [];
+    for (var i = 0; i < asbeza.length; i++) {
+      asbezas.add(Asbeza.fromJson(asbeza[i]));
+    }
+    return asbezas;
+  }
+
+  factory Asbeza.historyFromJson(Map<String, dynamic> json) {
+    return Asbeza(
+        id: json['id'],
+        title: json['title'],
+        price: json['price'],
+        description: json['description'],
+        image: json['image'], category: '');
+  }
+
+  static List historyList(List asbeza) {
+    List asbezas = [];
+    for (var i = 0; i < asbeza.length; i++) {
+      asbezas.add(Asbeza.historyFromJson(asbeza[i]));
+    }
+    return asbezas;
+  }
+
 }

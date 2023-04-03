@@ -1,21 +1,47 @@
-import 'package:asbeza/models/Asbeza.dart';
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:asbeza/models/asbeza.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import '../data_provider/apiService.dart';
-import 'package:asbeza/bloc/test_bloc.dart';
-import 'package:asbeza/bloc/test_event.dart';
-import 'package:asbeza/bloc/test_state.dart';
+import 'package:asbeza/repo/db_connect.dart';
+
+import 'package:equatable/equatable.dart';
+import 'package:bloc/bloc.dart';
+import 'package:asbeza/repo/db_connect.dart';
+import 'package:asbeza/repo/db_servicet.dart';
+
+part 'test_event.dart';
+part 'test_state.dart';
 
 
-
-class TestBloc extends Bloc<TestEvent, TestState> {
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final _apiServiceProvider = ApiServiceProvider();
-  TestBloc() : super(TestInitialState()) {
-    on<GetDataButtonPressed>((event, emit) async {
-      emit(TestLoadingState());
-      final asbeza = await _apiServiceProvider.fetchAsbeza();
-      emit(TestSuccessState(asbeza: [asbeza]));
+  final _service = Service();
+  List history = [];
+  List historyArr = [];
+
+  HomeBloc() : super(HomeInitialState()) {
+    on<FetchEvent>((event, emit) async {
+      emit(HomeLoadingState());
+      final activity = await _apiServiceProvider.fetchAsbeza();
+      await _service.readItems().then((val) => {
+        history=val,
+      });
+      historyArr=Asbeza.historyList(history);
+      emit(HomeSuccessState(asbeza: activity!, history: historyArr));
+});
+  on<HistoryEvent>((event, emit) => {
+      if (!historyArr.contains(event.data)){
+        historyArr.add(event.data),
+    _service.saveItems(event.data),
+    }
+    });
+    on<RemoveItemEvent>((event, emit) => {
+      _service.deleteItems(historyArr[event.data].id),
+      historyArr.removeAt(event.data),
     });
   }
 }
+
 

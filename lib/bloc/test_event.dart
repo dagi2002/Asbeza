@@ -1,11 +1,30 @@
-import 'package:equatable/equatable.dart';
+part of 'test_bloc.dart';
 
-abstract class TestEvent extends Equatable {}
+abstract class HomeEvent extends Equatable {
+  const HomeEvent();
+}
 
-class GetDataButtonPressed extends TestEvent {
-
+class FetchEvent extends HomeEvent {
+  const FetchEvent();
   @override
   List<Object> get props => [];
 }
 
+class HistoryEvent extends HomeEvent {
+  final Asbeza asbeza;
+  HistoryEvent({required this.asbeza});
 
+  @override
+  List<Object> get props => [];
+
+  get data => asbeza;
+}
+class RemoveItemEvent extends HomeEvent{
+  final int index;
+  RemoveItemEvent(
+      this.index
+      );
+  @override
+  List<Object> get props => [];
+   get data => index;
+}
